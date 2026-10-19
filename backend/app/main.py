@@ -9,6 +9,7 @@ from typing import Any
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field
 
@@ -93,6 +94,11 @@ def serialize_product(document: dict[str, Any]) -> dict[str, Any]:
         "price": float(document["price"]),
         "created_at": created_at.isoformat(),
     }
+
+
+@app.get("/", include_in_schema=False)
+async def api_home() -> RedirectResponse:
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/api/health")
