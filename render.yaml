@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: selenium-test-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.14.7
+      - key: MONGODB_URL
+        sync: false
+      - key: MONGODB_DATABASE
+        value: selenium_test_lab
+      - key: FRONTEND_ORIGIN
+        value: https://selenium-fronted-1.vercel.app
